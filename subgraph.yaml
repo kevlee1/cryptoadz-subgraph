@@ -1,0 +1,41 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: CrypToadz
+    network: mainnet
+    source:
+      address: "0x1cb1a5e65610aeff2551a50f76a87a7d3fb649c6"
+      abi: CrypToadz
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - OwnershipTransferred
+        - PayeeAdded
+        - PaymentReceived
+        - PaymentReleased
+        - Transfer
+      abis:
+        - name: CrypToadz
+          file: ./abis/CrypToadz.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PayeeAdded(address,uint256)
+          handler: handlePayeeAdded
+        - event: PaymentReceived(address,uint256)
+          handler: handlePaymentReceived
+        - event: PaymentReleased(address,uint256)
+          handler: handlePaymentReleased
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts
